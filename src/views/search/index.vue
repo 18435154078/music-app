@@ -3,7 +3,11 @@
     <div class="search-header">
       <i class="music musicxitongfanhui"></i>
       <div class="search-input">
-        <input type="text" v-model="searchValue" @keydown.enter="handleSearch">
+        <input
+          type="text"
+          v-model="searchValue"
+          @keydown.enter="handleSearch"
+        >
         <i
           class="music musiccancel-1-copy"
           v-show="searchValue"
@@ -36,6 +40,7 @@ export default {
   mounted () {},
   methods: {
     handleSearch () {
+      this.isSearch = true
       console.log(this.searchValue)
     }
   },
