@@ -1,0 +1,59 @@
+@import './icon-font.less';
+html, body {
+  width: 100%;
+  min-height: 100% !important;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+body {
+  font-size: 12px !important;
+  z-index: 100;
+}
+ul {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+li {
+  list-style: none;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes carcla {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.playing {
+  animation: carcla 10s linear infinite;
+}
+
+@keyframes carcla {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
