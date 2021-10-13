@@ -42,7 +42,8 @@ export default {
       if (res.data.code === 200) {
         this.SET_USER_TOKEN(res.data.token)
         this.$toast.success('登录成功')
-        this.$router.push('/')
+        const path = this.$route.query.redirect
+        this.$router.push(path || '/')
       }
     }
   },

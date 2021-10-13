@@ -6,6 +6,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import '@/styles/global.less'
 import './plugins/vant.js'
+import './permission.js'
 
 // 引入rem
 import 'amfe-flexible'
