@@ -68,7 +68,7 @@ export default {
     getPlayCurrent () {
       this.interval = setInterval(() => {
         this.$store.dispatch('undateTime', this.$refs.audio.currentTime)
-      }, 1000)
+      }, 300)
     }
   },
   computed: {

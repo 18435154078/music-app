@@ -2,10 +2,21 @@
   <div class="login">
     <div class="header">
       <i class="music musiccancel-1-copy to-home"></i>
-      <div class="title">手机号登录</div>
+      <div class="title">手机号注册</div>
     </div>
     <transition-group name="fade" mode="out-in">
-      <div class="login-mobile" v-if="isShowMobile" key="mobile">
+      <div key="password" v-if="centerPassword" class="password">
+        <div class="passwords">
+          <span>密 码：</span>
+          <input type="password" v-model="password">
+        </div>
+        <div class="nickname">
+          <span>用户名：</span>
+          <input type="text" v-model="nickname">
+        </div>
+        <van-button type="primary" size="large" class="next" @click="registerUser">下一步</van-button>
+      </div>
+      <div class="login-mobile" v-else-if="isShowMobile" key="mobile">
         <div style="font-size: 18px;margin-top:20px;">登录体验更多精彩</div>
         <span style="margin-top:5px;color:#666;display:block">未注册手机号登录后将自动创建账号</span>
         <van-field placeholder="请输入手机号" class="mobileNum" v-model="mobile" type="number">
@@ -16,6 +27,7 @@
             </div>
           </template>
         </van-field>
+        <a style="display:block;float:right;margin-top:10px;" href="/login">已有账号？去登录</a>
         <van-button type="primary" size="large" class="next" @click="setMobile">下一步</van-button>
       </div>
       <div class="login-code" v-else key="code">
@@ -56,7 +68,7 @@
 </template>
 
 <script>
-import { getCountriesCode, getMobileCode, CheckMobileCode } from '../../api/login'
+import { getCountriesCode, getMobileCode, CheckMobileCode, register, login } from '../../api/login'
 export default {
   name: 'Login',
   data () {
@@ -68,7 +80,10 @@ export default {
       code: '',
       showKeyboard: true,
       isShowCountDown: true,
-      isShow: false
+      isShow: false,
+      centerPassword: false,
+      password: '',
+      nickname: ''
     }
   },
   mounted () {
@@ -100,10 +115,8 @@ export default {
           phone: this.mobile,
           captcha: this.code
         })
-        console.log(res)
         if (res.data.code === 200) {
-          this.$toast('登录成功')
-          this.$router.push('/')
+          this.centerPassword = true
         }
       } catch (err) {
         this.$toast('验证码错误')
@@ -120,6 +133,28 @@ export default {
     reGetCode () {
       this.isShowCountDown = true
       this.getCode()
+    },
+    async registerUser () {
+      if (!this.password) {
+        return
+      }
+      if (!this.nickname) {
+        return
+      }
+      const res = await register('/register/cellphone', {
+        captcha: this.code,
+        phone: this.mobile,
+        password: this.password,
+        nickname: this.nickname
+      })
+      console.log(res)
+    },
+    async login () {
+      const res = await login('/login/cellphone', {
+        phone: '13243648467',
+        password: '123456'
+      })
+      console.log(res)
     }
   },
   watch: {
@@ -148,6 +183,51 @@ export default {
     .title {
       font-size: 18px;
       margin-left: 20px;
+    }
+  }
+  .password {
+    .nickname {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      span {
+        display: block;
+        width: 70px;
+        font-size: 16px;
+      }
+      input {
+        width: 280px;
+        height: 35px;
+        border: none;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    }
+    .passwords {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      span {
+        display: block;
+        width: 70px;
+        font-size: 16px;
+      }
+      input {
+        width: 280px;
+        height: 35px;
+        border: none;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+    }
+    .next {
+      background-color: #FA452F;
+      height: 40px;
+      border-radius: 20px;
+      border: none;
+      margin-top: 30px;
     }
   }
   .login-mobile {

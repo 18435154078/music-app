@@ -22,3 +22,26 @@ export const CheckMobileCode = (url, params) => {
     params
   })
 }
+
+// 登录状态
+export const loginStatus = url => {
+  return request({
+    url
+  })
+}
+
+// 注册，修改密码
+export const register = (url, params) => {
+  return request({
+    url,
+    params
+  })
+}
+
+// 用户登录
+export const login = (url, params) => {
+  return request({
+    url,
+    params
+  })
+}

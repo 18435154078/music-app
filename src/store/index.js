@@ -16,7 +16,9 @@ export default new Vuex.Store({
     // 歌词
     lyric: '',
     // 当前音乐播放的进度
-    currentTime: 0
+    currentTime: 0,
+    searchHistory: [],
+    userToken: getStorage('userToken') || ''
   },
   getters: {
     getCorrentSing: state => {
@@ -27,7 +29,7 @@ export default new Vuex.Store({
       if (!state.lyric) {
         return
       }
-      console.log(state.lyric)
+      // console.log(state.lyric)
       state.lyric.split(/\n/).forEach(item => {
         const timer = item.split(']')[0]
         const lyrics = item.split(']')[1]
@@ -41,7 +43,6 @@ export default new Vuex.Store({
           lyric: lyrics
         })
       })
-      console.log(lyricObj)
       return lyricObj
     }
   },
@@ -62,12 +63,29 @@ export default new Vuex.Store({
     },
     SET_PLAY_PROGRESS: (state, option) => {
       state.currentTime = option
+    },
+    SET_SEARCH_HISTORY: (state, option) => {
+      if (option.type === 'delete') {
+        state.searchHistory = []
+        return
+      }
+      const index = state.searchHistory.findIndex(item => {
+        return item === option.value
+      })
+      if (index >= 0) {
+        state.searchHistory.splice(index, 1)
+      }
+      state.searchHistory.unshift(option.value)
+    },
+    SET_USER_TOKEN: (state, option) => {
+      state.userToken = option
+      setStorage('userToken', option)
     }
   },
   actions: {
     reqLyric: async ({ commit }, payload) => {
       const res = await getMusicAyric('/lyric', payload.id)
-      commit('SET_PLAY_LYRIC', res.data.lrc.lyric)
+      commit('SET_PLAY_LYRIC', res.data.lrc ? res.data.lrc.lyric : '')
     },
     undateTime: ({ commit }, payload) => {
       commit('SET_PLAY_PROGRESS', payload)

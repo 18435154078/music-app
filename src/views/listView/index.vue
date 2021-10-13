@@ -88,7 +88,7 @@ export default {
     async getRecommendSongDetailList () {
       const id = this.$route.query.id
       const res = await getRecommendSongDetail('/playlist/detail', id)
-      console.log(res.data)
+      // console.log(res.data)
       this.songInfo.playlist = res.data.playlist
       this.songInfo.creator = res.data.playlist.creator
       this.songInfo.tracks = res.data.playlist.tracks
